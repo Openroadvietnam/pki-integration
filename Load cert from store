@@ -1,0 +1,73 @@
+ String sPass = new String("");
+            KeyStore.PasswordProtection pwd = new KeyStore.PasswordProtection(sPass.toCharArray());
+
+            char[] pin = sPin.toCharArray();
+
+            KeyStore keystore = KeyStore.getInstance("Windows-My", "SunMSCAPI");
+
+            keystore.load(null, null);
+            int count = keystore.size();
+
+            Enumeration enums = keystore.aliases();
+            PrivateKey privatekey = null;
+            String s1 = new String("");
+
+            for (; enums.hasMoreElements();) {
+                String alias = (String) enums.nextElement();
+                privatekey = (PrivateKey) keystore.getKey(alias, sPass.toCharArray());
+                PublicKey publickey = keystore.getCertificate(alias).getPublicKey();
+
+                boolean b = keystore.isKeyEntry(alias);
+                Certificate c = keystore.getCertificate(alias);
+                Certificate[] chain = keystore.getCertificateChain(alias);
+                b = keystore.isCertificateEntry(alias);
+
+                X509Certificate x = (X509Certificate) c;
+                String sSubject = new String("");
+                sSubject = x.getSubjectDN().toString();
+                String[] sTemp;
+                String[] sTemp2;
+                String s = new String("");
+
+                sTemp = sSubject.split(",");
+                System.out.println(sTemp[1]);
+                for (int i = 0; i < sTemp.length; i++) {
+
+                    s = sTemp[1];
+
+                }
+                sTemp2 = s.split("=");
+                for (int j = 0; j < sTemp2.length; j++) {
+
+                    s1 = sTemp2[1];
+                    System.out.println("S1= " + s1);
+
+                }
+
+                if (s1.equals("")) {
+                    lmodel.addElement("Not any certificate");
+                } else {
+                    lmodel.addElement(s1);
+                }
+
+
+            }//end for
+            if (count > 1) {
+
+                JPanel panel = new JPanel();
+                panel.add(list);
+                int ret = JOptionPane.showConfirmDialog(list, panel, "Choose an email", JOptionPane.YES_NO_OPTION);
+                if (ret == JOptionPane.YES_OPTION) {
+                    String element = new String("");
+                    int selected[] = list.getSelectedIndices();
+
+                    for (int i = 0; i < selected.length; i++) {
+                        element = (String) list.getModel().getElementAt(selected[i]);
+
+                    }
+                    //  JOptionPane.showMessageDialog(null, "sign file", "Th\u00f4ng b\u00e1o", JOptionPane.INFORMATION_MESSAGE);
+
+//                    value = Sign(sPathFile, element, sPin);
+                }
+
+            }
