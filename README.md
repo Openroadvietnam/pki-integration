@@ -1,4 +1,0 @@
-pki-integration
-===============
-
-PKI Integration
